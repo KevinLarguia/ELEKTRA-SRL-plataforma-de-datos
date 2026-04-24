@@ -4,6 +4,13 @@ Plataforma de datos full-stack que migra ~20 años de datos operativos desde pla
 
 Desarrollada para **Elektra S.R.L.**, fabricante de iluminación profesional con sede en Santa Fe, Argentina.
 
+<img width="1910" height="962" alt="image" src="https://github.com/user-attachments/assets/a31ecc18-015c-49c9-b166-a77304a8f21c" />
+<img width="1910" height="970" alt="image" src="https://github.com/user-attachments/assets/9e6080df-da9f-42a2-93cf-ce89530b87d5" />
+<img width="1910" height="971" alt="image" src="https://github.com/user-attachments/assets/263cbcaa-f4c1-416d-9c1b-98c8525d937b" />
+<img width="1913" height="972" alt="image" src="https://github.com/user-attachments/assets/8f72587b-7d04-4196-a06b-dc092a9221f2" />
+<img width="1914" height="973" alt="image" src="https://github.com/user-attachments/assets/9aeb3a61-ce13-42d2-be52-af940a7664dc" />
+
+
 ---
 
 ## Stack tecnológico
