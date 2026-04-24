@@ -1,0 +1,26 @@
+# Environment
+.env
+.env.local
+
+# Source data (proprietary business data — never commit)
+*.xls
+*.xlsx
+data/*.csv
+facturas/*.pdf
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
