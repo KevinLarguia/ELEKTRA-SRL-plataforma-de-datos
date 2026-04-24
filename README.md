@@ -1,124 +1,124 @@
-# Elektra SRL — Data Platform
+# Elektra SRL — Plataforma de Datos
 
-A full-stack data platform that migrates ~20 years of operational data from Excel spreadsheets into a normalized PostgreSQL database, with interactive dashboards, a REST API, and business automation tools.
+Plataforma de datos full-stack que migra ~20 años de datos operativos desde planillas Excel a una base de datos PostgreSQL normalizada, con dashboards interactivos, una API REST y herramientas de automatización de negocio.
 
-Built for **Elektra S.R.L.**, a professional lighting manufacturer based in Santa Fe, Argentina.
+Desarrollada para **Elektra S.R.L.**, fabricante de iluminación profesional con sede en Santa Fe, Argentina.
 
 ---
 
-## Tech Stack
+## Stack tecnológico
 
-| Layer | Technologies |
-|-------|-------------|
-| ETL / Data Processing | Python, pandas, openpyxl |
-| Database | PostgreSQL, SQLAlchemy |
+| Capa | Tecnologías |
+|------|-------------|
+| ETL / Procesamiento de datos | Python, pandas, openpyxl |
+| Base de datos | PostgreSQL, SQLAlchemy |
 | Dashboard | Streamlit, Plotly |
-| REST API | FastAPI, uvicorn, Pydantic |
-| Reporting | ReportLab (PDF invoices) |
-| Config | python-dotenv |
+| API REST | FastAPI, uvicorn, Pydantic |
+| Reportes | ReportLab (facturas PDF) |
+| Configuración | python-dotenv |
 
 ---
 
-## Features
+## Funcionalidades
 
-- **ETL Pipeline** — 6-step cleaning pipeline (scripts `01`–`06`) that processes a 32-sheet Excel workbook (3,300+ materials, 2,100+ products, 1,700+ clients, 12,000+ cost records) into clean CSVs loaded into PostgreSQL
-- **Relational Schema** — normalized schema with 9 tables, foreign key constraints, and SQL views for profitability, margins, stock gaps, and client distribution
-- **Streamlit Dashboard** — multi-page app with KPI metrics, pricing analysis, profitability charts, client geographic distribution, and cost breakdowns
-- **FastAPI REST Service** — price query endpoint with interactive auto-generated docs at `/docs`
-- **Price List Export** — automated Excel generation with formatted ARS + USD price sheets
-- **PDF Invoice Generator** — CLI tool that generates Factura A/B PDFs from client and product data
+- **Pipeline ETL** — 6 scripts de limpieza (`01`–`06`) que procesan un Excel de 32 hojas (3.300+ insumos, 2.100+ equipos, 1.700+ clientes, 12.000+ registros de costos) y los cargan en PostgreSQL
+- **Esquema relacional** — 9 tablas normalizadas con claves foráneas y vistas SQL para rentabilidad, márgenes, stock faltante y distribución de clientes
+- **Dashboard Streamlit** — app multipágina con métricas KPI, análisis de precios, gráficos de rentabilidad, distribución geográfica de clientes y desglose de costos de producción
+- **API REST con FastAPI** — endpoint de consulta de precios con documentación interactiva automática en `/docs`
+- **Exportación de listas de precios** — generación automática de Excel con precios en ARS y USD
+- **Generador de facturas PDF** — herramienta CLI que genera Facturas A/B en PDF a partir de datos de clientes y productos
 
 ---
 
-## Architecture
+## Arquitectura
 
 ```
-ELEKTRA_2026.xls  (32 sheets, ~20 years of data)
+ELEKTRA_2026.xls  (32 hojas, ~20 años de datos)
         │
         ▼
-scripts/01–06_limpieza_*.py     ← pandas ETL, cleaning, normalization
+scripts/01–06_limpieza_*.py     ← ETL con pandas: limpieza y normalización
         │
         ▼
-data/*_limpio.csv               ← intermediate clean datasets
+data/*_limpio.csv               ← datasets intermedios limpios
         │
         ▼
-scripts/07_crear_esquema_sql.py ← PostgreSQL schema + business views
+scripts/07_crear_esquema_sql.py ← esquema PostgreSQL + vistas de negocio
         │
         ▼
 PostgreSQL (elektra_srl)
-   ├── 9 normalized tables
-   └── SQL views (rentabilidad, márgenes, stock, distribución clientes)
+   ├── 9 tablas normalizadas
+   └── vistas SQL (rentabilidad, márgenes, stock, distribución clientes)
         │
-        ├── app/                             Streamlit dashboard (4 pages)
-        ├── scripts/11_api_precios.py        FastAPI price API
+        ├── app/                               Dashboard Streamlit (4 páginas)
+        ├── scripts/11_api_precios.py          API de precios FastAPI
         ├── scripts/09_exportar_listas_excel.py
         └── scripts/10_generar_factura_pdf.py
 ```
 
 ---
 
-## Project Structure
+## Estructura del proyecto
 
 ```
 ELEKTRA-plataforma-de-datos/
 ├── scripts/
-│   ├── 01_limpieza_insumos.py         # Raw materials cleaning
-│   ├── 02_limpieza_equipos.py         # Finished products cleaning
-│   ├── 03_limpieza_clientes.py        # Client database cleaning
-│   ├── 04_limpieza_proveedores.py     # Supplier registry cleaning
-│   ├── 05_limpieza_productos.py       # Product catalog cleaning
-│   ├── 06_limpieza_costos.py          # Production cost records cleaning
-│   ├── 07_crear_esquema_sql.py        # PostgreSQL schema & business views
-│   ├── 08_funciones_negocio.py        # Shared business logic
-│   ├── 09_exportar_listas_excel.py    # Price list → Excel export
-│   ├── 10_generar_factura_pdf.py      # PDF invoice generator (CLI)
-│   └── 11_api_precios.py              # FastAPI REST price API
+│   ├── 01_limpieza_insumos.py         # Limpieza de insumos/materiales
+│   ├── 02_limpieza_equipos.py         # Limpieza de equipos/productos terminados
+│   ├── 03_limpieza_clientes.py        # Limpieza de base de clientes
+│   ├── 04_limpieza_proveedores.py     # Limpieza de proveedores
+│   ├── 05_limpieza_productos.py       # Limpieza de catálogo de productos
+│   ├── 06_limpieza_costos.py          # Limpieza de costos de producción
+│   ├── 07_crear_esquema_sql.py        # Esquema PostgreSQL y vistas de negocio
+│   ├── 08_funciones_negocio.py        # Lógica de negocio compartida
+│   ├── 09_exportar_listas_excel.py    # Exportación de listas de precios a Excel
+│   ├── 10_generar_factura_pdf.py      # Generador de facturas PDF (CLI)
+│   └── 11_api_precios.py              # API REST de precios con FastAPI
 ├── app/
-│   ├── Inicio.py                      # Main page — KPI overview
+│   ├── Inicio.py                      # Página principal — resumen KPIs
 │   ├── pages/
-│   │   ├── 1_Precios.py               # Pricing analysis
-│   │   ├── 2_Rentabilidad.py          # Profitability analysis
-│   │   ├── 3_Clientes.py              # Client geographic distribution
-│   │   └── 4_Costos.py                # Production cost breakdown
+│   │   ├── 1_Precios.py               # Análisis de precios
+│   │   ├── 2_Rentabilidad.py          # Análisis de rentabilidad
+│   │   ├── 3_Clientes.py              # Distribución geográfica de clientes
+│   │   └── 4_Costos.py                # Desglose de costos de producción
 │   └── utils/
-│       └── db.py                      # SQLAlchemy connection + query helper
-├── data/                              # Intermediate CSVs (git-ignored)
-├── facturas/                          # Generated PDFs (git-ignored)
-├── .env.example                       # Environment variables template
+│       └── db.py                      # Conexión SQLAlchemy + helper de consultas
+├── data/                              # CSVs intermedios (ignorados por git)
+├── facturas/                          # PDFs generados (ignorados por git)
+├── .env.example                       # Plantilla de variables de entorno
 └── requirements.txt
 ```
 
 ---
 
-## Setup
+## Instalación
 
-### Prerequisites
+### Requisitos previos
 
 - Python 3.10+
 - PostgreSQL 14+
 
-### Installation
+### Pasos
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/<your-username>/elektra-plataforma-de-datos.git
-cd elektra-plataforma-de-datos
+# 1. Clonar el repositorio
+git clone https://github.com/KevinLarguia/ELEKTRA-SRL-plataforma-de-datos.git
+cd ELEKTRA-SRL-plataforma-de-datos
 
-# 2. Create and activate virtual environment
+# 2. Crear y activar entorno virtual
 python -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 
-# 3. Install dependencies
+# 3. Instalar dependencias
 pip install -r requirements.txt
 
-# 4. Configure environment variables
+# 4. Configurar variables de entorno
 cp .env.example .env
-# Edit .env with your PostgreSQL credentials
+# Editar .env con las credenciales de PostgreSQL
 ```
 
-### Running the ETL Pipeline
+### Ejecutar el pipeline ETL
 
-The pipeline requires the source `ELEKTRA_2026.xls` file (not included — proprietary data).
+El pipeline requiere el archivo fuente `ELEKTRA_2026.xls` (no incluido — datos propietarios).
 
 ```bash
 py scripts/01_limpieza_insumos.py
@@ -127,55 +127,55 @@ py scripts/03_limpieza_clientes.py
 py scripts/04_limpieza_proveedores.py
 py scripts/05_limpieza_productos.py
 py scripts/06_limpieza_costos.py
-py scripts/07_crear_esquema_sql.py   # creates schema + views
+py scripts/07_crear_esquema_sql.py   # crea el esquema y las vistas
 ```
 
-### Launching the Dashboard
+### Levantar el dashboard
 
 ```bash
 streamlit run app/Inicio.py
 ```
 
-### Starting the REST API
+### Iniciar la API REST
 
 ```bash
 py -m uvicorn scripts.11_api_precios:app --reload --port 8000
-# Interactive docs: http://localhost:8000/docs
+# Documentación interactiva: http://localhost:8000/docs
 ```
 
-### Generating a PDF Invoice
+### Generar una factura PDF
 
 ```bash
 py scripts/10_generar_factura_pdf.py --cliente 15 --items "RADAR:1,VIBRO:2"
-py scripts/10_generar_factura_pdf.py --demo    # demo invoice
+py scripts/10_generar_factura_pdf.py --demo    # factura de prueba
 ```
 
 ---
 
-## Data Overview
+## Datos
 
-The source workbook contains proprietary business data and is **not included** in this repository.
+El archivo fuente contiene datos propietarios de la empresa y **no está incluido** en este repositorio.
 
-| Table | Source rows | Description |
-|-------|-------------|-------------|
-| `insumos` | 3,358 | Raw materials — codes, ARS/USD pricing, supplier, stock |
-| `equipos` | 2,132 | Finished products — margins, public/distributor prices (ARS + USD) |
-| `clientes` | 1,763 | Client registry — CUIT, province, IVA category |
-| `proveedores` | 259 | Supplier registry |
-| `productos` | 2,131 | Product catalog with categories |
-| `costos_equipos` | 12,207 | Production cost breakdown per product |
-
----
-
-## Key Design Decisions
-
-- **Dual-currency pricing** — all price fields preserve both ARS and USD columns; Argentina's inflationary context requires tracking the exchange rate per record
-- **Idempotent ETL scripts** — each cleaning script can be re-run independently without side effects
-- **Cached DB connection** — Streamlit's `@st.cache_resource` ensures a single SQLAlchemy engine is reused across user sessions
-- **SQL business views** — profitability and cost logic lives in the database layer, keeping the dashboard code thin and the data portable
+| Tabla | Filas | Descripción |
+|-------|-------|-------------|
+| `insumos` | 3.358 | Materiales — códigos, precios ARS/USD, proveedor, stock |
+| `equipos` | 2.132 | Productos terminados — márgenes, precios público/distribuidor (ARS + USD) |
+| `clientes` | 1.763 | Base de clientes — CUIT, provincia, categoría IVA |
+| `proveedores` | 259 | Registro de proveedores |
+| `productos` | 2.131 | Catálogo de productos con categorías |
+| `costos_equipos` | 12.207 | Desglose de costos de producción por equipo |
 
 ---
 
-## License
+## Decisiones de diseño
 
-This project was built for internal use at Elektra S.R.L. The source data is proprietary and not distributed with this repository.
+- **Precios en doble moneda** — todos los campos de precio conservan columnas ARS y USD; el contexto inflacionario argentino requiere registrar el tipo de cambio por registro
+- **Scripts ETL idempotentes** — cada script de limpieza puede ejecutarse de forma independiente sin efectos secundarios
+- **Conexión cacheada a la DB** — `@st.cache_resource` de Streamlit garantiza que se reutilice un único engine SQLAlchemy entre sesiones
+- **Lógica de negocio en vistas SQL** — rentabilidad y costos viven en la capa de base de datos, manteniendo el código del dashboard simple y los datos portables
+
+---
+
+## Licencia
+
+Proyecto desarrollado para uso interno de Elektra S.R.L. Los datos fuente son propietarios y no se distribuyen con este repositorio.
