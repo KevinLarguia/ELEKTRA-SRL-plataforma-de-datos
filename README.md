@@ -1,6 +1,6 @@
 # Elektra SRL — Plataforma de Datos
 
-Plataforma de datos full-stack que migra ~20 años de datos operativos desde planillas Excel a una base de datos PostgreSQL normalizada, con dashboards interactivos, una API REST y herramientas de automatización de negocio.
+Plataforma de datos full-stack que migra ~20 años (25,247 filas) de datos operativos desde planillas Excel a una base de datos PostgreSQL normalizada, con dashboards interactivos, una API REST y herramientas de automatización de negocio.
 
 Desarrollada para **Elektra S.R.L.**, fabricante de iluminación profesional con sede en Santa Fe, Argentina.
 
